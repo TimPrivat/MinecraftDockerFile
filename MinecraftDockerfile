@@ -1,0 +1,26 @@
+FROM ubuntu:latest 
+
+ARG JDK_VERSION=17
+ARG PORT=25565
+ARG MINECRAFT_VERSION=1.19.4
+
+ENV JDK_VERISON_ENV=${JDK_VERSION}
+ENV PORT_ENV=${PORT}
+ENV MINECRAFT_VERSION_ENV=${MINECRAFT_VERSION}
+
+RUN apt update && apt upgrade -y
+RUN apt install curl -y
+RUN apt install -y openjdk-${JDK_VERISON_ENV}-jre-headless
+RUN apt-get install -y ufw && ufw allow ${PORT_ENV}
+
+RUN mkdir /opt/minecraftserver
+RUN touch /opt/minecraftserver/spigot-${MINECRAFT_VERSION_ENV}.jar
+RUN curl https://download.getbukkit.org/spigot/spigot-${MINECRAFT_VERSION_ENV}.jar -o /opt/minecraftserver/spigot-${MINECRAFT_VERSION_ENV}.jar
+COPY opt/startnstop.sh /opt/minecraftserver/startnstop
+
+
+
+
+#Niklas ses tut mir leid der code ist eventuell drunk entstanden.aber sollte hoffentlich funktionieren frag mich einfach nochmal wie der funktioniert und ich geb dir dem sourcecode
+
+#https://www.bennetrichter.de/en/tutorials/minecraft-server-linux/
